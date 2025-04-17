@@ -8,8 +8,8 @@ module rwa::rwa;
 
 
 module  rwa::tickets{
-    use std::string::{Self,String};
-    use rwa::activity::Activiti;
+    use std::string::{Self, String};
+    use rwa::activity::{Activiti, create_tickets_verify, get_activity_id};
     use sui::object::{uid_to_address};
  
 
@@ -35,9 +35,9 @@ module  rwa::tickets{
         ctx:&mut TxContext
 
     ){
-        //活动的创建者和票据的创建者是同一个人
-        assert!(ctx.sender() == acti.admin,0);
-        let acti_address = uid_to_address(&acti.id);
+        // 活动的创建者和票据的创建者是同一个人
+        create_tickets_verify(acti, ctx);
+        let acti_address = get_activity_id(acti);
         let tickets = Tickets{
             id:object::new(ctx),
             info,
@@ -47,6 +47,5 @@ module  rwa::tickets{
             max_supply,
             vip_supply,
         };
-        
     }
 }

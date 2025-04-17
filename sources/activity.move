@@ -7,6 +7,8 @@ module rwa::activity {
     use rwa::admin::F_Admin;
     use sui::object::uid_to_address;
 
+    const ErrNotActivityCreator: u64 = 1;
+
     // 活动结构体
     public struct Activiti has key, store {
         id: UID,
@@ -65,7 +67,7 @@ module rwa::activity {
      //所以需要传入address参数以验证是否相同，相同就是管理员
 
      //通过活动的admin的admin
-     public(package)fun is_admin(
+     public(package) fun is_admin(
        activity:&Activiti,
        member:address
        ):bool
@@ -124,6 +126,23 @@ module rwa::activity {
         assert!(con, 2); // 如果活动不存在，抛出错误
         vector::remove(&mut activities.all, index); // 使用值而不是引用
     }
-    
+
+    // 验证活动的创建者和创建门票的人是否是同一个人
+    public(package) fun create_tickets_verify(
+        activity: &Activiti,
+        ctx: &mut TxContext
+    ) {
+        if (!(activity.admin == ctx.sender())) {
+            abort ErrNotActivityCreator;
+        }
+    }
+
+    // 获取活动的objectID
+    public fun get_activity_id(activity: &Activiti): address {
+        uid_to_address(&activity.id)
+    }
+
+
+    //
     //线下活动验证
 }
