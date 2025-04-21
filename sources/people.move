@@ -160,7 +160,7 @@ module rwa::people {
         };
 
         let ticket_addr = object::id(&ticket);
-        Table::add(&mut ticket_list.normal_tickets, ticket_addr, ticket);
+        table::add(&mut ticket_list.normal_tickets, ticket_addr, ticket);
         ticket_list.ticket_count = ticket_list.ticket_count + 1;
         vector::push_back(&mut participant.tickets_owned, ticket_addr);
 
@@ -205,6 +205,7 @@ module rwa::people {
     ) {
         if (is_vip) {
             let ticket = Table::borrow_mut(&mut ticket_list.vip_tickets, ticket_addr);
+            // TODO: 错误码记得定义一下，这里的错误码是0，虽然给错误码取名是有点折磨
             assert!(ticket.owner == sender.wallet, 0);
             ticket.owner = receiver.wallet;
 
@@ -240,7 +241,7 @@ module rwa::people {
             assert!(ticket.owner == participant.wallet, 0);
             assert!(ticket.state == TICKET_SOLD, 0);
             ticket.state = TICKET_USED;
-        }
+        };
 
         if (!vector::contains(&participants.attendees, &participant.wallet)) {
             vector::push_back(&mut participants.attendees, participant.wallet);
@@ -257,6 +258,8 @@ module rwa::people {
         is_vip: bool
     ): &Ticket {
         if (is_vip) {
+            // TODO: 调用时应该用table::borrow，而不是Table::borrow_mut
+            // 这里的Table::borrow_mut是错误的，应该使用table::borrow，因为传入的只是引用object，而不是可变引用
             Table::borrow_mut(&ticket_list.vip_tickets, ticket_addr)
         } else {
             Table::borrow_mut(&ticket_list.normal_tickets, ticket_addr)
@@ -288,4 +291,7 @@ module rwa::people {
             i = i + 1;
         }
     }
+
+    /// TODO: 可以考虑使用 error handing，将abort封装到一个方法中(类似于我在activity模块中写的create_tickets_verify方法)，这样在测试的时候会让错误更易读一些，因为 sui 的 VM 在报错时会显示报错的方法名，错误码只会告诉值
+    /// 当然，嫌麻烦直接用错误码也没毛病
 }
