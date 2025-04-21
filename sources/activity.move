@@ -6,8 +6,12 @@ module rwa::activity {
     use sui::transfer::{public_share_object};
     use rwa::admin::F_Admin;
     use sui::object::uid_to_address;
+    
 
     const ErrNotActivityCreator: u64 = 1;
+    const ErrActivityNotExist: u64 = 2;
+    
+    const XIANGOU:u64 =3;
 
     // 活动结构体
     public struct Activiti has key, store {
@@ -36,8 +40,7 @@ module rwa::activity {
     }
 
     // 创建活动
-    public entry fun create_activity(
-     
+    public entry fun create_activity (
       activities: &mut Activities,
      // duration:u64,
       info: String, 
@@ -141,8 +144,8 @@ module rwa::activity {
     public fun get_activity_id(activity: &Activiti): address {
         uid_to_address(&activity.id)
     }
+    
 
-
-    //
-    //线下活动验证
+  
+    
 }
