@@ -1,13 +1,14 @@
 module rwa::people {
     use std::string::{String};
     use std::vector;
-    use std::bool::{Self, bool};
+    // use std::bool::{Self, bool};
     use sui::table::{Self, Table};
     use sui::tx_context::{Self, TxContext, sender};
     use sui::object::{Self, UID};
     use sui::transfer::{Self, public_share_object, transfer};
     use rwa::activity::{Activiti, create_tickets_verify, get_activity_id};
-    use rwa::admin::F_Admin;
+    use rwa::admin::{F_Admin,get_admin_id};
+    use sui::object::{uid_to_address};
 
     // 错误常量
     const E_TOO_MANY: u64 = 1;
@@ -91,7 +92,7 @@ module rwa::people {
             id: object::new(ctx),
             info,
             activity: get_activity_id(activity),
-            admin: admin.admin,
+            admin:get_admin_id(admin) ,
             max_supply,
             vip_supply,
             price,
@@ -110,8 +111,8 @@ module rwa::people {
 
         let ticket_list = TicketList {
             id: object::new(ctx),
-            normal_tickets: Table::new(ctx),
-            vip_tickets: Table::new(ctx),
+            normal_tickets: table::new(ctx),
+            vip_tickets: table::new(ctx),
             ticket_count: 0,
             vip_ticket_count: 0,
         };
@@ -159,7 +160,7 @@ module rwa::people {
             price: template.price,
         };
 
-        let ticket_addr = object::id(&ticket);
+        let ticket_addr = uid_to_address(&ticket.id);
         table::add(&mut ticket_list.normal_tickets, ticket_addr, ticket);
         ticket_list.ticket_count = ticket_list.ticket_count + 1;
         vector::push_back(&mut participant.tickets_owned, ticket_addr);
@@ -186,8 +187,8 @@ module rwa::people {
             price: template.vip_price,
         };
 
-        let ticket_addr = object::id(&ticket);
-        Table::add(&mut ticket_list.vip_tickets, ticket_addr, ticket);
+        let ticket_addr = uid_to_address(&ticket.id);
+        table::add(&mut ticket_list.vip_tickets, ticket_addr, ticket);
         ticket_list.vip_ticket_count = ticket_list.vip_ticket_count + 1;
         vector::push_back(&mut participant.vip_tickets_owned, ticket_addr);
 
@@ -204,7 +205,7 @@ module rwa::people {
         is_vip: bool,
     ) {
         if (is_vip) {
-            let ticket = Table::borrow_mut(&mut ticket_list.vip_tickets, ticket_addr);
+            let mut ticket = table::borrow_mut(&mut ticket_list.vip_tickets, ticket_addr);
             // TODO: 错误码记得定义一下，这里的错误码是0，虽然给错误码取名是有点折磨
             assert!(ticket.owner == sender.wallet, 0);
             ticket.owner = receiver.wallet;
@@ -212,7 +213,7 @@ module rwa::people {
             remove_address(&mut sender.vip_tickets_owned, ticket_addr);
             vector::push_back(&mut receiver.vip_tickets_owned, ticket_addr);
         } else {
-            let ticket = Table::borrow_mut(&mut ticket_list.normal_tickets, ticket_addr);
+            let mut ticket = table::borrow_mut(&mut ticket_list.normal_tickets, ticket_addr);
             assert!(ticket.owner == sender.wallet, 0);
             ticket.owner = receiver.wallet;
 
@@ -232,12 +233,12 @@ module rwa::people {
         is_vip: bool,
     ) {
         if (is_vip) {
-            let ticket = Table::borrow_mut(&mut ticket_list.vip_tickets, ticket_addr);
+            let mut ticket = table::borrow_mut(&mut ticket_list.vip_tickets, ticket_addr);
             assert!(ticket.owner == participant.wallet, 0);
             assert!(ticket.state == TICKET_SOLD, 0);
             ticket.state = TICKET_USED;
         } else {
-            let ticket = Table::borrow_mut(&mut ticket_list.normal_tickets, ticket_addr);
+            let mut ticket = table::borrow_mut(&mut ticket_list.normal_tickets, ticket_addr);
             assert!(ticket.owner == participant.wallet, 0);
             assert!(ticket.state == TICKET_SOLD, 0);
             ticket.state = TICKET_USED;
@@ -260,9 +261,9 @@ module rwa::people {
         if (is_vip) {
             // TODO: 调用时应该用table::borrow，而不是Table::borrow_mut
             // 这里的Table::borrow_mut是错误的，应该使用table::borrow，因为传入的只是引用object，而不是可变引用
-            Table::borrow_mut(&ticket_list.vip_tickets, ticket_addr)
+            table::borrow(&ticket_list.vip_tickets, ticket_addr)
         } else {
-            Table::borrow_mut(&ticket_list.normal_tickets, ticket_addr)
+            table::borrow(&ticket_list.normal_tickets, ticket_addr)
         }
     }
 
