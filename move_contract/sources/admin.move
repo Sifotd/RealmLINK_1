@@ -6,6 +6,7 @@ module rwa::admin{
     const NOT_ADMINS:u64 =3;
     use sui::transfer::{public_transfer};
     use std::vector::{empty,contains};
+    use sui::object::{uid_to_address};
 
    
     public struct Roledata has key, store{
@@ -58,6 +59,9 @@ module rwa::admin{
         };
 
     }
-    
+    //get方法
+    public fun get_admin_id(admin:&F_Admin):address{
+        uid_to_address(&admin.id)
+    }
     
 }
