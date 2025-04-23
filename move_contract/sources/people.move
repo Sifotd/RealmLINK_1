@@ -36,7 +36,9 @@ module rwa::people {
     // 票模板结构体（用于创建票）
     public struct TicketTemplate has key, store {
         id: UID,
-        info: String,
+        activity_title: String,
+        activity_image:String,
+        activity_description: String,
         activity: address,
         admin: address,
         max_supply: u64,
@@ -77,7 +79,9 @@ module rwa::people {
 
     // 创建票模板
     public entry fun create_ticket_template(
-        info: String,
+        activity_title: String,
+        activity_image: String,
+        activity_description:String,
         activity: &Activiti,
         admin: &F_Admin,
         max_supply: u64,

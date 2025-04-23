@@ -16,7 +16,9 @@ module rwa::activity {
     // 活动结构体
     public struct Activiti has key, store {
         id: UID,
-        info: String,
+        activity_title: String,
+        activity_description: String,
+        activity_image:String,
         start_time:u64,
         end_time:u64,
         max_people:u64,
@@ -42,8 +44,13 @@ module rwa::activity {
     // 创建活动
     public entry fun create_activity (
       activities: &mut Activities,
+      activity_title: String,  
+      activity_description: String,
+      activity_image: String,
+       
+        // duration:u64, //活动持续时间，暂时不需要
      // duration:u64,
-      info: String, 
+     
       start_time:u64,
       end_time:u64,
       fare:u64,
@@ -51,7 +58,9 @@ module rwa::activity {
       ctx: &mut TxContext) {
         let new_activity = Activiti {
             id: object::new(ctx),
-            info,
+            activity_title,
+            activity_description,
+            activity_image,
             start_time,
             end_time,
             fare,
@@ -97,7 +106,9 @@ module rwa::activity {
    //更新活动信息
    public entry fun update_activity(
         activity: &mut Activiti,
-        info: String,
+        activity_title: String,
+        activity_description: String,
+        activity_image: String,
         start_time:u64,
         end_time:u64,
         fare:u64,
@@ -107,7 +118,9 @@ module rwa::activity {
         //先判断活动的修改者是否是活动的发起者
         assert!(activity.admin == ctx.sender(), 1); // 如果不是发起者，抛出错误
         //更新活动信息
-        activity.info = info;
+        activity.activity_title = activity_title;
+        activity.activity_description =activity_description;
+        activity.activity_image =activity_image;
         activity.start_time = start_time;
         activity.end_time = end_time;
         activity.fare = fare;
