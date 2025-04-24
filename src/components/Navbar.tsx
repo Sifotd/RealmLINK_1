@@ -1,4 +1,7 @@
+'use client';
+
 import Link from "next/link";
+import { CustomConnectWallet } from "./ConnectWallet";
 
 export default function Navbar() {
   return (
@@ -26,7 +29,7 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn btn-primary">连接钱包</button>
+        <CustomConnectWallet />
       </div>
     </div>
   );

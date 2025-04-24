@@ -12,3 +12,55 @@ body {
   color: var(--foreground);
   font-family: 'Geist', sans-serif;
 }
+
+/* 自定义 SUI 钱包按钮样式 */
+.sui-connect-button {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.sui-connect-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* 钱包弹窗样式定制 */
+div[data-dapp-kit-modal="true"] {
+  font-family: 'Geist', sans-serif;
+}
+
+/* 增强钱包弹窗样式 */
+[data-dapp-kit-modal="true"] .sui-walletkit-modal {
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+[data-dapp-kit-modal="true"] .sui-walletkit-modal-heading {
+  font-weight: 600;
+}
+
+[data-dapp-kit-modal="true"] .sui-walletkit-modal-close-button {
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+[data-dapp-kit-modal="true"] .sui-walletkit-modal-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-dapp-kit-modal="true"] .sui-walletkit-wallet-option {
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+[data-dapp-kit-modal="true"] .sui-walletkit-wallet-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* 修复钱包弹窗可能的z-index问题 */
+[data-dapp-kit-modal="true"] {
+  z-index: 1000 !important;
+}

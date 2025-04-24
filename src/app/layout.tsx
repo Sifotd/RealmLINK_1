@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { WalletProviders } from "@/providers/WalletProviders";
+import '@mysten/dapp-kit/dist/index.css';
+import '../styles/dapp-kit-override.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,11 +32,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+        <WalletProviders>
+          <Navbar />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </WalletProviders>
       </body>
     </html>
   );

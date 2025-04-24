@@ -1,0 +1,77 @@
+/* dapp-kit覆盖样式 */
+
+/* 基础样式 */
+.sui-walletkit-button {
+  font-family: 'Geist', sans-serif !important;
+  background-color: hsl(var(--p)) !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 500 !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.sui-walletkit-button:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 模态框样式 */
+.sui-walletkit-modal-container {
+  font-family: 'Geist', sans-serif !important;
+  z-index: 100 !important;
+}
+
+.sui-walletkit-modal {
+  border-radius: 1rem !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  overflow: hidden !important;
+}
+
+.sui-walletkit-modal-heading {
+  font-weight: 600 !important;
+  color: hsl(var(--n)) !important;
+}
+
+.sui-walletkit-modal-close-button {
+  border-radius: 50% !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.sui-walletkit-modal-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 钱包选项样式 */
+.sui-walletkit-wallet-option {
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.sui-walletkit-wallet-option:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  border-color: hsl(var(--p) / 0.5) !important;
+}
+
+.sui-walletkit-wallet-option-name {
+  font-weight: 500 !important;
+  color: hsl(var(--n)) !important;
+}
+
+/* 连接钱包图标和文字排列 */
+.sui-walletkit-wallet-standard-connection-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+/* 确保弹窗在最上层 */
+[data-dapp-kit-modal="true"] {
+  z-index: 9999 !important;
+} 
