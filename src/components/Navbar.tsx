@@ -1,13 +1,8 @@
 'use client';
 
 import Link from "next/link";
-<<<<<<< HEAD
 import { ConnectButton } from "@mysten/dapp-kit";
 import { WalletProvider } from "@mysten/dapp-kit";
-=======
-import { CustomConnectWallet } from "./ConnectWallet";
-
->>>>>>> 3a1b6d60c57c07fcce4f4a01a68a829de3af5b63
 export default function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-md">
@@ -34,15 +29,11 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-<<<<<<< HEAD
         <button className="btn btn-primary">
           连接钱包
           <ConnectButton/>
 
         </button>
-=======
-        <CustomConnectWallet />
->>>>>>> 3a1b6d60c57c07fcce4f4a01a68a829de3af5b63
       </div>
     </div>
   );
