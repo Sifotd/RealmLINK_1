@@ -1,5 +1,3 @@
-# RealmLINK
-
 # RealmLINK - Decentralized Trust Infrastructure on Sui Move
 
 ## 🌟 Introduction
@@ -116,6 +114,7 @@ Apache 2.0 - See [LICENSE](LICENSE)
 ## 🌐 Sui Resources
 - [Sui Documentation](https://docs.sui.io)
 - [Move Book](https://move-book.com)
+- [RealmLINK Testnet Explorer](https://explorer.realmlink.sui)
 
 ---
 
