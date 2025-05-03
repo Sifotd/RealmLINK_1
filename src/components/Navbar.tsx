@@ -1,5 +1,6 @@
 import Link from "next/link";
-
+import { ConnectButton } from "@mysten/dapp-kit";
+import { WalletProvider } from "@mysten/dapp-kit";
 export default function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-md">
@@ -26,7 +27,11 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn btn-primary">连接钱包</button>
+        <button className="btn btn-primary">
+          连接钱包
+          <ConnectButton/>
+
+        </button>
       </div>
     </div>
   );
