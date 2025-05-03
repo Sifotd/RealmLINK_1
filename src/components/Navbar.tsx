@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ConnectButton } from "@mysten/dapp-kit";
-import { WalletProvider } from "@mysten/dapp-kit";
+//import { WalletProvider } from "@mysten/dapp-kit";
 export default function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-md">
